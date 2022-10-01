@@ -6,7 +6,9 @@ local availableJobs = {
     ["reporter"] = "News Reporter",
     ["garbage"] = "Garbage Collector",
     ["bus"] = "Bus Driver",
-    ["hotdog"] = "Hot Dog Stand"
+    ["hotdog"] = "Hot Dog Stand",
+    ["police"] = "Sheriff's Office",
+    ["ambulance"] = "Fire & Rescue",
 }
 
 -- Functions
@@ -22,7 +24,6 @@ local function giveStarterItems()
             info.lastname = Player.PlayerData.charinfo.lastname
             info.birthdate = Player.PlayerData.charinfo.birthdate
             info.gender = Player.PlayerData.charinfo.gender
-            info.nationality = Player.PlayerData.charinfo.nationality
         elseif v.item == "driver_license" then
             info.firstname = Player.PlayerData.charinfo.firstname
             info.lastname = Player.PlayerData.charinfo.lastname
@@ -54,7 +55,6 @@ RegisterNetEvent('qb-cityhall:server:requestId', function(item, hall)
         info.lastname = Player.PlayerData.charinfo.lastname
         info.birthdate = Player.PlayerData.charinfo.birthdate
         info.gender = Player.PlayerData.charinfo.gender
-        info.nationality = Player.PlayerData.charinfo.nationality
     elseif item == "driver_license" then
         info.firstname = Player.PlayerData.charinfo.firstname
         info.lastname = Player.PlayerData.charinfo.lastname
