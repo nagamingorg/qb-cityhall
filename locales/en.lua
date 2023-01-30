@@ -6,8 +6,8 @@ local Translations = {
         recived_license = 'You have recived your %{value} for $50'
     },
     info = {
-        bilp_text = 'City Services',
-        city_services_menu = '~g~E~w~ - City Services Menu',
+        bilp_text = 'County Services',
+        city_services_menu = '~g~E~w~ - County Services Menu',
         id_card = 'ID Card',
         driver_license = 'Drivers License',
         weaponlicense = 'Firearms License',

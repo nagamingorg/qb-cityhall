@@ -7,11 +7,11 @@ Config.Cityhalls = {
         coords = vector3(-145.78, 6304.15, 31.56),
         showBlip = true,
         blipData = {
-            sprite = 487,
+            sprite = 176,
             display = 4,
             scale = 0.65,
             colour = 0,
-            title = "City Services"
+            title = "County Services"
         },
         licenses = {
             ["id_card"] = {
@@ -20,22 +20,37 @@ Config.Cityhalls = {
             },
             ["driver_license"] = {
                 label = "Driver License",
-                cost = 50,
+                cost = 150,
                 metadata = "driver"
             },
-            ["weaponlicense"] = {
-                label = "Weapon License",
-                cost = 50,
+            ["boat_license"] = {
+                label = "Boater's License",
+                cost = 150,
+                metadata = "boat"
+            },
+            ["firearm_license"] = {
+                label = "Firearm License",
+                cost = 350,
                 metadata = "weapon"
+            },
+            ["firearm_restricted_license"] = {
+                label = "Firearm [restricted] License",
+                cost = 1350,
+                metadata = "weapon_restricted"
+            },
+            ["outdoor_license"] = {
+                label = "Outdoor's License",
+                cost = 350,
+                metadata = "outdoor"
             },
         }
     },
 }
 
 Config.DrivingSchools = {
-    { -- Driving School 1
+    /*{ -- Driving School 1
         coords = vec3(240.3, -1379.89, 33.74),
-        showBlip = false,
+        showBlip = true,
         blipData = {
             sprite = 225,
             display = 4,
@@ -48,14 +63,14 @@ Config.DrivingSchools = {
             "DXT09752",
             "SRI85140",
         }
-    },
+    },*/
 }
 
 Config.Peds = {
     -- Cityhall Ped
     {
         model = 'a_m_m_hasjew_01',
-        coords = vector4(-146.21, 6303.64, 30.55, 317.95),
+        coords = vector4(-145.42, 6304.46, 31.56, 308.52),
         scenario = 'WORLD_HUMAN_STAND_MOBILE',
         cityhall = true,
         zoneOptions = { -- Used for when UseTarget is false
@@ -64,15 +79,15 @@ Config.Peds = {
             debugPoly = false
         }
     },
-    -- Driving School Ped
+    /*-- Driving School Ped
     {
         model = 'a_m_m_eastsa_02',
         coords = vec4(240.91, -1379.2, 32.74, 138.96),
         scenario = 'WORLD_HUMAN_STAND_MOBILE',
-        drivingschool = false,
+        drivingschool = true,
         zoneOptions = { -- Used for when UseTarget is false
             length = 3.0,
             width = 3.0
         }
-    }
+    }*/
 }
