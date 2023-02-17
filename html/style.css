@@ -1,8 +1,13 @@
-@import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
-
 body {
+    font-family: 'Roboto', sans-serif !important;
+    --offblack: #202020f7;
+    --dblue: #5865f2c4;
+    --bcso: #5182eca8;
+    --bcfr: #d63636a8;
+    --red: #dc1414b6;
+    --green: ;
+    --offwhite: #ededed;
+    --greyhover: #525252cb;
     overflow: hidden;
 }
 
@@ -29,7 +34,6 @@ body {
 .cityhall-header {
     position: relative;
     text-align: center;
-    font-family: 'Poppins', sans-serif;
     font-weight: 400;
     font-size: 6vh;
     color: #ededed;
@@ -39,7 +43,7 @@ body {
     left: 1.5vh;
     border-radius: 2vh;
     height: 10vh;
-    background: #dc143c;
+    background: var(--dblue);
 }
 
 .cityhall-option-blocks {
@@ -91,61 +95,22 @@ body {
 }
 
 .cityhall-option-block:hover {
-    border-bottom: 9px solid #dc143c;
+    border-bottom: 9px solid var(--dblue);
     opacity: 0.9;
 }
 
 .cityhall-option-block > i {
     font-size: 16vh;
     line-height: 21vh;
-    color: #dc143c;
+    color: var(--dblue);
 }
 
 .cityhall-option-block > p {
     color: #171717;
     font-weight: 500;
     text-transform: uppercase;
-    font-family: 'Poppins', sans-serif;
     letter-spacing: 0.1vh;
     font-size: 2.6vh;
-}
-
-.identity-page-blocks {
-    position: relative;
-    height: 100%;
-    width: 25%;
-    padding: 1vh;
-}
-
-.identity-page-block {
-    width: 100%;
-    height: 15%;
-    background: #2873A7;
-    transition: all 0.1s ease-in-out;
-    border-radius: 0.5vh;
-    /* border-bottom: 2px solid rgba(255, 255, 255, 0); */
-}
-
-.identity-page-block:hover {
-    background: #ededed;
-    transition: ease-in 0.3s;
-}
-
-.identity-page-block > p:hover {
-    color: #2873A7;
-    transition: ease-in 0.3s;
-}
-
-.identity-page-block > p {
-    position: relative;
-    text-align: center;
-    line-height: 6vh;
-    font-family: 'Poppins', sans-serif;
-    text-transform: uppercase;
-    font-weight: 400;
-    letter-spacing: 0.1vh;
-    color: #ededed;
-    font-size: 1.6vh;
 }
 
 .hover-description {
@@ -159,14 +124,13 @@ body {
 }
 
 .hover-description > p {
-    color: white;
-    font-family: 'Poppins', sans-serif;
+    color: var(--dblue);
     font-size: 1.3vh;
 }
 
 .identity-selected {
-    border-bottom: 0px solid #fff;
-    border-left: 0.5vh solid #ededed;
+    border-bottom: 0px solid var(--offwhite);
+    border-left: 0.5vh solid var(--offwhite);
 }
 
 .request-identity-button {
@@ -182,7 +146,7 @@ body {
 }
 
 .request-identity-button > p {
-    color: #ededed;
+    color: var(--offwhite);
     text-align: center;
     font-family: sans-serif;
     text-transform: uppercase;
@@ -192,7 +156,7 @@ body {
     letter-spacing: 0.05vh;
 }
 
-.job-page-blocks {
+.job-page-blocks, .identity-page-blocks {
     position: relative;
     padding: 1vh;
     padding-right: 2vh;
@@ -202,32 +166,28 @@ body {
     row-gap: 2vh;
 }
 
-.job-page-block {
+.job-page-block, .identity-page-block {
     width: 100%;
     height: 5vh;
-    background: #2873A7;
+    background: var(--dblue);
     border-radius: 0.5vh;
     transition: all 0.1s ease-in-out;
     border-bottom: 2px solid rgba(255, 255, 255, 0);
 }
 
-.job-page-block:hover {
-    background: #ededed;
+.job-page-block:hover, .identity-page-block:hover {
+    background: var(--greyhover);
+    color: var(--offwhite)
 }
 
-.job-page-block > p:hover {
-    color: #2873A7;
-}
-
-.job-page-block > p {
+.job-page-block, .identity-page-block > p {
     position: relative;
     text-align: center;
     line-height: 2.5vh;
-    font-family: 'Poppins', sans-serif;
     text-transform: uppercase;
-    font-weight: 400;
+    font-weight: 600;
     letter-spacing: 0.1vh;
-    color: #ededed;
+    color: var(--offwhite);
     font-size: 1.6vh;
 }
 
@@ -248,7 +208,7 @@ body {
 }
 
 .apply-job-button > p {
-    color: #ededed;
+    color: var(--offwhite);
     text-align: center;
     font-family: sans-serif;
     text-transform: uppercase;
@@ -259,7 +219,7 @@ body {
 }
 
 .job-selected {
-    border-left: 0.5vh solid #ededed;
+    border-left: 0.5vh solid var(--offwhite);
 }
 
 .back-to-main {
@@ -269,15 +229,14 @@ body {
     margin: 1vh;
     width: 20vh;
     height: 5vh;
-    background: #dc143c;
+    background: var(--bcfr);
     border-radius: 0.5vh;
     transition: all 0.1s linear;
 }
 
 .back-to-main > p {
-    color: #ededed;
+    color: var(--offwhite);
     text-align: center;
-    font-family: 'Poppins', sans-serif;
     text-transform: uppercase;
     font-size: 2vh;
     font-weight: 400;

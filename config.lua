@@ -19,31 +19,31 @@ Config.Cityhalls = {
                 cost = 50,
             },
             ["driver_license"] = {
-                label = "Driver License",
+                label = "Driver\'s License",
                 cost = 150,
-                metadata = "driver"
+                --metadata = "driver",
             },
             ["boat_license"] = {
-                label = "Boater's License",
-                cost = 150,
-                metadata = "boat"
+                label = "Boater\'s License",
+                cost = 450,
+                --metadata = "boat",
             },
             ["firearm_license"] = {
                 label = "Firearm License",
-                cost = 350,
-                metadata = "weapon"
+                cost = 1350,
+                --metadata = "weapon",
             },
             ["firearm_restricted_license"] = {
-                label = "Firearm [restricted] License",
-                cost = 1350,
-                metadata = "weapon_restricted"
+                label = "Firearm [R] License",
+                cost = 3550,
+                --metadata = "weapon_restricted",
             },
             ["outdoor_license"] = {
-                label = "Outdoor's License",
-                cost = 350,
-                metadata = "outdoor"
+                label = "Outdoor\'s License",
+                cost = 750,
+                --metadata = "outdoor",
             },
-        }
+        },
     },
 }
 

@@ -4,10 +4,8 @@ local isLoggedIn = LocalPlayer.state.isLoggedIn
 local playerPed = PlayerPedId()
 local playerCoords = GetEntityCoords(playerPed)
 local closestCityhall = nil
-local closestDrivingSchool = nil
 local inCityhallPage = false
 local inRangeCityhall = false
-local inRangeDrivingSchool = false
 local pedsSpawned = false
 local table_clone = table.clone
 local blips = {}
@@ -20,20 +18,6 @@ local function getClosestHall()
     for i = 1, #Config.Cityhalls do
         local hall = Config.Cityhalls[i]
         local dist = #(playerCoords - hall.coords)
-        if dist < distance then
-            distance = dist
-            closest = i
-        end
-    end
-    return closest
-end
-
-local function getClosestSchool()
-    local distance = #(playerCoords - Config.DrivingSchools[1].coords)
-    local closest = 1
-    for i = 1, #Config.DrivingSchools do
-        local school = Config.DrivingSchools[i]
-        local dist = #(playerCoords - school.coords)
         if dist < distance then
             distance = dist
             closest = i
@@ -95,20 +79,6 @@ local function initBlips()
             })
         end
     end
-    for i = 1, #Config.DrivingSchools do
-        local school = Config.DrivingSchools[i]
-        if school.showBlip then
-            blips[#blips+1] = createBlip({
-                coords = school.coords,
-                sprite = school.blipData.sprite,
-                display = school.blipData.display,
-                scale = school.blipData.scale,
-                colour = school.blipData.colour,
-                shortRange = true,
-                title = school.blipData.title
-            })
-        end
-    end
 end
 
 local function spawnPeds()
@@ -120,7 +90,7 @@ local function spawnPeds()
         while not HasModelLoaded(current.model) do
             Wait(0)
         end
-        local ped = CreatePed(0, current.model, current.coords.x, current.coords.y, current.coords.z, current.coords.w, false, false)
+        local ped = CreatePed(0, current.model, current.coords.x, current.coords.y, current.coords.z - 1, current.coords.w, false, false)
         FreezeEntityPosition(ped, true)
         SetEntityInvincible(ped, true)
         SetBlockingOfNonTemporaryEvents(ped, true)
@@ -128,15 +98,7 @@ local function spawnPeds()
         current.pedHandle = ped
         if Config.UseTarget then
             local opts = nil
-            if current.drivingschool then
-                opts = {
-                    label = 'Take Driving Lessons',
-                    icon = 'fa-solid fa-car-side',
-                    action = function()
-                        TriggerServerEvent('qb-cityhall:server:sendDriverTest', Config.DrivingSchools[closestDrivingSchool].instructors)
-                    end
-                }
-            elseif current.cityhall then
+            if current.cityhall then
                 opts = {
                     label = 'Open Cityhall',
                     icon = 'fa-solid fa-city',
@@ -163,20 +125,15 @@ local function spawnPeds()
                     maxZ = current.coords.z + 2.0
                 })
                 zone:onPlayerInOut(function(inside)
-                    if isLoggedIn and closestCityhall and closestDrivingSchool then
+                    if isLoggedIn and closestCityhall then
                         if inside then
-                            if current.drivingschool then
-                                inRangeDrivingSchool = true
-                                exports['qb-core']:DrawText('[E] Take Driving Lessons')
-                            elseif current.cityhall then
+                            if current.cityhall then
                                 inRangeCityhall = true
                                 exports['qb-core']:DrawText('[E] Open Cityhall')
                             end
                         else
                             exports['qb-core']:HideText()
-                            if current.drivingschool then
-                                inRangeDrivingSchool = false
-                            elseif current.cityhall then
+                            if current.cityhall then
                                 inRangeCityhall = false
                             end
                         end
@@ -221,21 +178,6 @@ RegisterNetEvent('qb-cityhall:client:getIds', function()
     TriggerServerEvent('qb-cityhall:server:getIDs')
 end)
 
-RegisterNetEvent('qb-cityhall:client:sendDriverEmail', function(charinfo)
-    SetTimeout(math.random(2500, 4000), function()
-        local gender = Lang:t('email.mr')
-        if PlayerData.charinfo.gender == 1 then
-            gender = Lang:t('email.mrs')
-        end
-        TriggerServerEvent('qb-phone:server:sendNewMail', {
-            sender = Lang:t('email.sender'),
-            subject = Lang:t('email.subject'),
-            message =  Lang:t('email.message', {gender = gender, lastname = charinfo.lastname, firstname = charinfo.firstname, phone = charinfo.phone}),
-            button = {}
-        })
-    end)
-end)
-
 AddEventHandler('onResourceStop', function(resource)
     if resource ~= GetCurrentResourceName() then return end
     deleteBlips()
@@ -264,11 +206,11 @@ end)
 RegisterNUICallback('requestLicenses', function(_, cb)
     local licensesMeta = PlayerData.metadata["licences"]
     local availableLicenses = table_clone(Config.Cityhalls[closestCityhall].licenses)
-    for license, data in pairs(availableLicenses) do
+    /*for license, data in pairs(availableLicenses) do
         if data.metadata and not licensesMeta[data.metadata] then
             availableLicenses[license] = nil
         end
-    end
+    end*/
     cb(availableLicenses)
 end)
 
@@ -289,7 +231,6 @@ CreateThread(function()
             playerPed = PlayerPedId()
             playerCoords = GetEntityCoords(playerPed)
             closestCityhall = getClosestHall()
-            closestDrivingSchool = getClosestSchool()
         end
         Wait(1000)
     end
@@ -307,7 +248,7 @@ CreateThread(function()
     if not Config.UseTarget then
         while true do
             local sleep = 1000
-            if isLoggedIn and closestCityhall and closestDrivingSchool then
+            if isLoggedIn and closestCityhall then
                 if inRangeCityhall then
                     if not inCityhallPage then
                         sleep = 0
@@ -318,15 +259,6 @@ CreateThread(function()
                             exports['qb-core']:HideText()
                             sleep = 1000
                         end
-                    end
-                elseif inRangeDrivingSchool then
-                    sleep = 0
-                    if IsControlJustPressed(0, 38) then
-                        TriggerServerEvent('qb-cityhall:server:sendDriverTest', Config.DrivingSchools[closestDrivingSchool].instructors)
-                        sleep = 5000
-                        exports['qb-core']:KeyPressed()
-                        Wait(500)
-                        exports['qb-core']:HideText()
                     end
                 end
             end

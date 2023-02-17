@@ -1,12 +1,13 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 local availableJobs = {
+    ["unemployed"] = "Unemployed",
     ["trucker"] = "Trucker",
     ["taxi"] = "Taxi",
     ["tow"] = "Tow Truck",
     ["reporter"] = "News Reporter",
     ["garbage"] = "Garbage Collector",
     ["bus"] = "Bus Driver",
-    ["hotdog"] = "Hot Dog Stand"
+    --["hotdog"] = "Hot Dog Stand"
 }
 
 -- Exports
@@ -23,28 +24,6 @@ end
 exports('AddCityJob', AddCityJob)
 
 -- Functions
-
-local function giveStarterItems()
-    local Player = QBCore.Functions.GetPlayer(source)
-    if not Player then return end
-    for _, v in pairs(QBCore.Shared.StarterItems) do
-        local info = {}
-        if v.item == "id_card" then
-            info.citizenid = Player.PlayerData.citizenid
-            info.firstname = Player.PlayerData.charinfo.firstname
-            info.lastname = Player.PlayerData.charinfo.lastname
-            info.birthdate = Player.PlayerData.charinfo.birthdate
-            info.gender = Player.PlayerData.charinfo.gender
-            info.nationality = Player.PlayerData.charinfo.nationality
-        elseif v.item == "driver_license" then
-            info.firstname = Player.PlayerData.charinfo.firstname
-            info.lastname = Player.PlayerData.charinfo.lastname
-            info.birthdate = Player.PlayerData.charinfo.birthdate
-            info.type = "Class C Driver License"
-        end
-        Player.Functions.AddItem(v.item, 1, nil, info)
-    end
-end
 
 -- Callbacks
 
@@ -119,4 +98,4 @@ RegisterNetEvent('qb-cityhall:server:ApplyJob', function(job, cityhallCoords)
     TriggerClientEvent('QBCore:Notify', src, Lang:t('info.new_job', {job = JobInfo.label}))
 end)
 
-RegisterNetEvent('qb-cityhall:server:getIDs', giveStarterItems)
+--RegisterNetEvent('qb-cityhall:server:getIDs', giveStarterItems)
