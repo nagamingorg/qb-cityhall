@@ -82,67 +82,39 @@ local function initBlips()
 end
 
 local function spawnPeds()
-    if not Config.Peds or not next(Config.Peds) or pedsSpawned then return end
-    for i = 1, #Config.Peds do
-        local current = Config.Peds[i]
-        current.model = type(current.model) == 'string' and joaat(current.model) or current.model
-        RequestModel(current.model)
-        while not HasModelLoaded(current.model) do
-            Wait(0)
-        end
-        local ped = CreatePed(0, current.model, current.coords.x, current.coords.y, current.coords.z - 1, current.coords.w, false, false)
-        FreezeEntityPosition(ped, true)
-        SetEntityInvincible(ped, true)
-        SetBlockingOfNonTemporaryEvents(ped, true)
-        TaskStartScenarioInPlace(ped, current.scenario, true, true)
-        current.pedHandle = ped
-        if Config.UseTarget then
-            local opts = nil
-            if current.cityhall then
-                opts = {
-                    label = 'Open Cityhall',
-                    icon = 'fa-solid fa-city',
-                    action = function()
-                        inRangeCityhall = true
-                        setCityhallPageState(true, true)
-                    end
-                }
-            end
-            if opts then
-                exports['qb-target']:AddTargetEntity(ped, {
-                    options = {opts},
-                    distance = 2.0
-                })
-            end
-        else
-            local options = current.zoneOptions
-            if options then
-                local zone = BoxZone:Create(current.coords.xyz, options.length, options.width, {
-                    name = "zone_cityhall_"..ped,
-                    heading = current.coords.w,
-                    debugPoly = false,
-                    minZ = current.coords.z - 3.0,
-                    maxZ = current.coords.z + 2.0
-                })
-                zone:onPlayerInOut(function(inside)
-                    if isLoggedIn and closestCityhall then
-                        if inside then
-                            if current.cityhall then
-                                inRangeCityhall = true
-                                exports['qb-core']:DrawText('[E] Open Cityhall')
-                            end
-                        else
-                            exports['qb-core']:HideText()
-                            if current.cityhall then
-                                inRangeCityhall = false
-                            end
-                        end
-                    end
-                end)
-            end
-        end
+  if not Config.Peds or not next(Config.Peds) or pedsSpawned then return end
+  for i = 1, #Config.Peds do
+    local current = Config.Peds[i]
+    current.model = type(current.model) == 'string' and joaat(current.model) or current.model
+    RequestModel(current.model)
+    while not HasModelLoaded(current.model) do
+      Wait(0)
     end
-    pedsSpawned = true
+    local ped = CreatePed(0, current.model, current.coords.x, current.coords.y, current.coords.z - 1, current.coords.w, false, false)
+    FreezeEntityPosition(ped, true)
+  SetEntityInvincible(ped, true)
+    SetBlockingOfNonTemporaryEvents(ped, true)
+    TaskStartScenarioInPlace(ped, current.scenario, true, true)
+    current.pedHandle = ped
+    local opts = nil
+    if current.cityhall then
+      opts = {
+        label = 'Open Cityhall',
+        icon = 'fa-solid fa-city',
+        action = function()
+          inRangeCityhall = true
+          setCityhallPageState(true, true)
+        end
+      }
+    end
+    if opts then
+      exports['qb-target']:AddTargetEntity(ped, {
+        options = {opts},
+        distance = 2.0
+      })
+    end
+  end
+  pedsSpawned = true
 end
 
 local function deletePeds()
@@ -188,7 +160,6 @@ end)
 
 RegisterNUICallback('close', function(_, cb)
     setCityhallPageState(false, false)
-    if not Config.UseTarget and inRangeCityhall then exports['qb-core']:DrawText('[E] Open Cityhall') end -- Reopen interaction when you're still inside the zone
     cb('ok')
 end)
 
@@ -196,7 +167,6 @@ RegisterNUICallback('requestId', function(id, cb)
     local license = Config.Cityhalls[closestCityhall].licenses[id.type]
     if inRangeCityhall and license and id.cost == license.cost then
         TriggerServerEvent('qb-cityhall:server:requestId', id.type, closestCityhall)
-        QBCore.Functions.Notify(('You have received your %s for $%s'):format(license.label, id.cost), 'success', 3500)
     else
         QBCore.Functions.Notify(Lang:t('error.not_in_range'), 'error')
     end
@@ -215,10 +185,14 @@ RegisterNUICallback('requestLicenses', function(_, cb)
 end)
 
 RegisterNUICallback('applyJob', function(job, cb)
-    if inRangeCityhall then
-        TriggerServerEvent('qb-cityhall:server:ApplyJob', job, Config.Cityhalls[closestCityhall].coords)
+    if PlayerData.job.type == "leo" or PlayerData.job.type == "fire" then
+      QBCore.Functions.Notify(Lang:t('error.job_check'), 'error')
     else
+      if inRangeCityhall then
+        TriggerServerEvent('qb-cityhall:server:ApplyJob', job, Config.Cityhalls[closestCityhall].coords)
+      else
         QBCore.Functions.Notify(Lang:t('error.not_in_range'), 'error')
+      end
     end
     cb('ok')
 end)
@@ -226,43 +200,23 @@ end)
 -- Threads
 
 CreateThread(function()
-    while true do
-        if isLoggedIn then
-            playerPed = PlayerPedId()
-            playerCoords = GetEntityCoords(playerPed)
-            closestCityhall = getClosestHall()
-        end
-        Wait(1000)
+  while true do
+    if isLoggedIn then
+      playerPed = PlayerPedId()
+      playerCoords = GetEntityCoords(playerPed)
+      closestCityhall = getClosestHall()
     end
+    Wait(1000)
+  end
 end)
 
 CreateThread(function()
-    initBlips()
-    spawnPeds()
-    QBCore.Functions.TriggerCallback('qb-cityhall:server:receiveJobs', function(result)
-        SendNUIMessage({
-            action = 'setJobs',
-            jobs = result
-        })
-    end)
-    if not Config.UseTarget then
-        while true do
-            local sleep = 1000
-            if isLoggedIn and closestCityhall then
-                if inRangeCityhall then
-                    if not inCityhallPage then
-                        sleep = 0
-                        if IsControlJustPressed(0, 38) then
-                            setCityhallPageState(true, true)
-                            exports['qb-core']:KeyPressed()
-                            Wait(500)
-                            exports['qb-core']:HideText()
-                            sleep = 1000
-                        end
-                    end
-                end
-            end
-            Wait(sleep)
-        end
-    end
+  initBlips()
+  spawnPeds()
+  QBCore.Functions.TriggerCallback('qb-cityhall:server:receiveJobs', function(result)
+    SendNUIMessage({
+      action = 'setJobs',
+      jobs = result
+    })
+  end)
 end)

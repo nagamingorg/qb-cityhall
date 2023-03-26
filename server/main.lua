@@ -1,12 +1,15 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 local availableJobs = {
-    ["unemployed"] = "Unemployed",
-    ["trucker"] = "Trucker",
-    ["taxi"] = "Taxi",
-    ["tow"] = "Tow Truck",
-    ["reporter"] = "News Reporter",
-    ["garbage"] = "Garbage Collector",
-    ["bus"] = "Bus Driver",
+    ['unemployed'] = 'Unemployed',
+    ['trucker'] = 'Trucker [OUTDATED]',
+    ['taxi'] = 'Taxi',
+    ['tow'] = 'Tow Truck',
+    --["reporter"] = "News Reporter",
+    ['garbage'] = 'Garbage Collector',
+    ['bus'] = 'Bus Driver',
+    --['transport'] = 'Transport driver',
+    --['delivery'] = 'Commercial driver',
+    --['postal'] = 'Postal delivery',
     --["hotdog"] = "Hot Dog Stand"
 }
 
@@ -38,7 +41,15 @@ RegisterNetEvent('qb-cityhall:server:requestId', function(item, hall)
     local Player = QBCore.Functions.GetPlayer(src)
     if not Player then return end
     local itemInfo = Config.Cityhalls[hall].licenses[item]
-    if not Player.Functions.RemoveMoney("cash", itemInfo.cost) then return TriggerClientEvent('QBCore:Notify', src, ('You don\'t have enough money on you, you need %s cash'):format(itemInfo.cost), 'error') end
+    if not Player.Functions.RemoveMoney("cash", itemInfo.cost) then return TriggerClientEvent('QBCore:Notify', src, ('You don\'t have enough money on you, you need $%s cash'):format(itemInfo.cost), 'error') end
+    TriggerClientEvent('QBCore:Notify', src, ('You have received your %s for $%s'):format(itemInfo.label, itemInfo.cost), 'success')
+    
+    -- DB update
+
+    local licenseTable = Player.PlayerData.metadata["licences"]
+    licenseTable[itemInfo.metadata] = true
+    Player.Functions.SetMetaData("licences", licenseTable)
+    
     local info = {}
     if item == "id_card" then
         info.citizenid = Player.PlayerData.citizenid

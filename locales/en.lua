@@ -1,6 +1,7 @@
 local Translations = {
     error = {
-        not_in_range = 'Too far from the city hall'
+        not_in_range = 'Too far from the the county services kiosk',
+        job_check = 'You can\'t do that as law enforcement or fire/ems!',
     },
     success = {
         recived_license = 'You have recived your %{value} for $50'

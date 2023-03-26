@@ -3,48 +3,80 @@ Config = Config or {}
 Config.UseTarget = GetConvar('UseTarget', 'false') == 'true' -- Use qb-target interactions (don't change this, go to your server.cfg and add `setr UseTarget true` to use this and just that from true to false or the other way around)
 
 Config.Cityhalls = {
-    { -- Cityhall 1
-        coords = vector3(-145.78, 6304.15, 31.56),
-        showBlip = true,
-        blipData = {
-            sprite = 176,
-            display = 4,
-            scale = 0.65,
-            colour = 0,
-            title = "County Services"
-        },
-        licenses = {
-            ["id_card"] = {
-                label = "ID Card",
-                cost = 50,
-            },
-            ["driver_license"] = {
-                label = "Driver\'s License",
-                cost = 150,
-                --metadata = "driver",
-            },
-            ["boat_license"] = {
-                label = "Boater\'s License",
-                cost = 450,
-                --metadata = "boat",
-            },
-            ["firearm_license"] = {
-                label = "Firearm License",
-                cost = 1350,
-                --metadata = "weapon",
-            },
-            ["firearm_restricted_license"] = {
-                label = "Firearm [R] License",
-                cost = 3550,
-                --metadata = "weapon_restricted",
-            },
-            ["outdoor_license"] = {
-                label = "Outdoor\'s License",
-                cost = 750,
-                --metadata = "outdoor",
-            },
-        },
+  { -- Paleto Bay
+    coords = vector3(-145.78, 6304.15, 31.56),
+    showBlip = true,
+    blipData = {
+      sprite = 176,
+      display = 4,
+      scale = 0.65,
+      colour = 0,
+      title = "County Services"
     },
+    licenses = {
+      ["id_card"] = {
+        label = "ID Card",
+        cost = 50,
+      },
+      ["driver_license"] = {
+        label = "Driver\'s License",
+        cost = 150,
+        metadata = "driver",
+      },
+      ["boat_license"] = {
+        label = "Boater\'s License",
+        cost = 450,
+        metadata = "boat",
+      },
+      ["firearm_license"] = {
+        label = "Firearm License",
+        cost = 1350,
+        metadata = "weapon",
+      },
+      /*["firearm_restricted_license"] = {
+        label = "Firearm [R] License",
+        cost = 3550,
+        metadata = "weapon_restricted",
+      },*/
+      ["outdoor_license"] = {
+        label = "Outdoor\'s License",
+        cost = 750,
+        metadata = "outdoor",
+      },
+    },
+  },
+  { -- Grapeseed
+    coords = vector3(1654.21, 4883.02, 42.16),
+    showBlip = true,
+    blipData = {
+      sprite = 176,
+      display = 4,
+      scale = 0.65,
+      colour = 0,
+      title = "County Services"
+    },
+    licenses = {
+      ["id_card"] = {
+        label = "ID Card",
+        cost = 50,
+      },
+      ["driver_license"] = {
+        label = "Driver\'s License",
+        cost = 150,
+        metadata = "driver",
+      },
+      ["boat_license"] = {
+        label = "Boater\'s License",
+        cost = 450,
+        metadata = "boat",
+      },
+      ["outdoor_license"] = {
+        label = "Outdoor\'s License",
+        cost = 750,
+        metadata = "outdoor",
+      },
+    },
+  },
 }
 
 Config.DrivingSchools = {
@@ -69,15 +101,26 @@ Config.DrivingSchools = {
 Config.Peds = {
     -- Cityhall Ped
     {
-        model = 'a_m_m_hasjew_01',
-        coords = vector4(-145.42, 6304.46, 31.56, 308.52),
-        scenario = 'WORLD_HUMAN_STAND_MOBILE',
-        cityhall = true,
-        zoneOptions = { -- Used for when UseTarget is false
-            length = 3.0,
-            width = 3.0,
-            debugPoly = false
-        }
+      model = 'a_m_m_hasjew_01',
+      coords = vector4(-145.42, 6304.46, 31.56, 308.52),
+      scenario = 'WORLD_HUMAN_STAND_MOBILE',
+      cityhall = true,
+      zoneOptions = { -- Used for when UseTarget is false
+        length = 3.0,
+        width = 3.0,
+        debugPoly = false
+      }
+    },
+    {
+      model = 'a_m_m_hasjew_01',
+      coords = vector4(1654.32, 4882.97, 42.16, 285.98),
+      scenario = 'WORLD_HUMAN_STAND_MOBILE',
+      cityhall = true,
+      zoneOptions = { -- Used for when UseTarget is false
+        length = 3.0,
+        width = 3.0,
+        debugPoly = false
+      }
     },
     /*-- Driving School Ped
     {
