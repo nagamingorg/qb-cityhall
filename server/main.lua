@@ -1,7 +1,7 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 local availableJobs = {
     ['unemployed'] = 'Unemployed',
-    ['trucker'] = 'Trucker [OUTDATED]',
+    ['trucker'] = 'Trucker',
     ['taxi'] = 'Taxi',
     ['tow'] = 'Tow Truck',
     --["reporter"] = "News Reporter",
@@ -45,10 +45,11 @@ RegisterNetEvent('qb-cityhall:server:requestId', function(item, hall)
     TriggerClientEvent('QBCore:Notify', src, ('You have received your %s for $%s'):format(itemInfo.label, itemInfo.cost), 'success')
     
     -- DB update
-
-    local licenseTable = Player.PlayerData.metadata["licences"]
-    licenseTable[itemInfo.metadata] = true
-    Player.Functions.SetMetaData("licences", licenseTable)
+    if item ~= "id_card" then
+      local licenseTable = Player.PlayerData.metadata["licences"]
+      licenseTable[itemInfo.metadata] = true
+      Player.Functions.SetMetaData("licences", licenseTable)
+    end
     
     local info = {}
     if item == "id_card" then
@@ -63,6 +64,16 @@ RegisterNetEvent('qb-cityhall:server:requestId', function(item, hall)
         info.lastname = Player.PlayerData.charinfo.lastname
         info.birthdate = Player.PlayerData.charinfo.birthdate
         info.type = "Class C Driver License"
+    elseif item == "truck_license" then
+        info.firstname = Player.PlayerData.charinfo.firstname
+        info.lastname = Player.PlayerData.charinfo.lastname
+        info.birthdate = Player.PlayerData.charinfo.birthdate
+        info.type = "Class AZ Truck License"
+    elseif item == "pilot_license" then
+        info.firstname = Player.PlayerData.charinfo.firstname
+        info.lastname = Player.PlayerData.charinfo.lastname
+        info.birthdate = Player.PlayerData.charinfo.birthdate
+        info.type = "Private Pilot License"
     elseif item == "boat_license" then
         info.firstname = Player.PlayerData.charinfo.firstname
         info.lastname = Player.PlayerData.charinfo.lastname

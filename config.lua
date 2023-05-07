@@ -1,6 +1,5 @@
 Config = Config or {}
-
-Config.UseTarget = GetConvar('UseTarget', 'false') == 'true' -- Use qb-target interactions (don't change this, go to your server.cfg and add `setr UseTarget true` to use this and just that from true to false or the other way around)
+Config.UseTarget = GetConvar('UseTarget', 'false') == 'true'
 
 Config.Cityhalls = {
   { -- Paleto Bay
@@ -23,26 +22,36 @@ Config.Cityhalls = {
         cost = 150,
         metadata = "driver",
       },
-      ["boat_license"] = {
+      --[[ ["boat_license"] = {
         label = "Boater\'s License",
         cost = 450,
         metadata = "boat",
-      },
+      }, ]]--
       ["firearm_license"] = {
         label = "Firearm License",
         cost = 1350,
         metadata = "weapon",
       },
-      /*["firearm_restricted_license"] = {
+      ["truck_license"] = {
+        label = "Truck License [AZ]",
+        cost = 2000,
+        metadata = "truck",
+      },
+      ["pilot_license"] = {
+        label = "Pilot\'s License",
+        cost = 5000,
+        metadata = "pilot",
+      },
+      --[[ ["firearm_restricted_license"] = {
         label = "Firearm [R] License",
         cost = 3550,
         metadata = "weapon_restricted",
-      },*/
+      },
       ["outdoor_license"] = {
         label = "Outdoor\'s License",
         cost = 750,
         metadata = "outdoor",
-      },
+      }, ]]--
     },
   },
   { -- Grapeseed
@@ -65,21 +74,36 @@ Config.Cityhalls = {
         cost = 150,
         metadata = "driver",
       },
-      ["boat_license"] = {
+      --[[ ["boat_license"] = {
         label = "Boater\'s License",
         cost = 450,
         metadata = "boat",
-      },
+      }, ]]--
       ["firearm_license"] = {
         label = "Firearm License",
         cost = 1350,
         metadata = "weapon",
       },
+      ["truck_license"] = {
+        label = "Truck License [AZ]",
+        cost = 2000,
+        metadata = "truck",
+      },
+      ["pilot_license"] = {
+        label = "Pilot\'s License",
+        cost = 5000,
+        metadata = "pilot",
+      },
+      --[[ ["firearm_restricted_license"] = {
+        label = "Firearm [R] License",
+        cost = 3550,
+        metadata = "weapon_restricted",
+      },
       ["outdoor_license"] = {
         label = "Outdoor\'s License",
         cost = 750,
         metadata = "outdoor",
-      },
+      }, ]]--
     },
   },
 }
