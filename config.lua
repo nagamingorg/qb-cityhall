@@ -1,6 +1,16 @@
 Config = Config or {}
 Config.UseTarget = GetConvar('UseTarget', 'false') == 'true'
 
+Config.AvailableJobs = {                                     -- Only used when not using qb-jobs.
+    ['trucker'] = { ['label'] = 'Trucker', ['isManaged'] = false },
+    ['taxi'] = { ['label'] = 'Taxi', ['isManaged'] = false },
+    ['tow'] = { ['label'] = 'Tow Truck', ['isManaged'] = false },
+    ['reporter'] = { ['label'] = 'News Reporter', ['isManaged'] = false },
+    ['garbage'] = { ['label'] = 'Garbage Collector', ['isManaged'] = false },
+    ['bus'] = { ['label'] = 'Bus Driver', ['isManaged'] = false },
+    ['hotdog'] = { ['label'] = 'Hot Dog Stand', ['isManaged'] = false }
+}
+
 Config.Cityhalls = {
   { -- Paleto Bay
     coords = vector3(-145.78, 6304.15, 31.56),
@@ -117,12 +127,12 @@ Config.DrivingSchools = {
             display = 4,
             scale = 0.65,
             colour = 3,
-            title = "Driving School"
+            title = 'Driving School'
         },
         instructors = {
-            "DJD56142",
-            "DXT09752",
-            "SRI85140",
+            'DJD56142',
+            'DXT09752',
+            'SRI85140',
         }
     },*/
 }
